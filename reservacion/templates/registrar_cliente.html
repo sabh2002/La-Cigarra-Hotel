@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% csrf_token %}
+<form action="/clientes/registrar_clientes">
+    <h1>Registrar cliente</h1>
+    {{form}}
+    <button>Registrar</button>
+</form>
+
+{% endblock %}

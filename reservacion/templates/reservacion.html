@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Realiza la reservacion</h1>
+
+
+
+<form action="/crear/reservacion/" method="post">
+
+    {% csrf_token %}
+    {{form}}
+
+    <button>  Hacer Reservacion  </button>
+</form>
+
+{% endblock %}
