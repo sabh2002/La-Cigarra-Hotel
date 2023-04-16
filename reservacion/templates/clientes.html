@@ -6,6 +6,15 @@
 
 <h1>Clientes registrados</h1>
 
+<ul>
+    {% for cliente in clientes %}
+    
+    <li>{{cliente.nombre}}  {{cliente.apellido}} <b>cedula:</b> {{cliente.cedula}}</li>
+
+    {% endfor %}
+</ul>
+
+
 
 
 {% endblock %}

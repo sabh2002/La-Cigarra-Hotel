@@ -13,21 +13,6 @@ class cliente(models.Model):
     def __str__(self):
         return self.nombre + " " + self.apellido
 
-class reserva(models.Model):
-    codigo = models.AutoField(primary_key=True)
-    fechaReserva = models.DateField(auto_now=True)
-    fechaLlegada = models.DateField()
-    fechaSalida = models.DateField()
-    estado = models.CharField(max_length=25)
-    cliente = models.ForeignKey(cliente, on_delete=models.CASCADE)
-    origen = models.CharField(max_length=25)
-
-
-    def __str__(self):
-        codigo = self.codigo
-        #codigo = str(codigo)
-        return f"{self.cliente} codigo de reserva: {codigo}"
-
 class habitacion(models.Model):
     numeroHabitacion = models.IntegerField(primary_key=True)
     tipoHabitacion = models.CharField(max_length=25)
@@ -38,6 +23,23 @@ class habitacion(models.Model):
     def __str__(self):
 
         return f"Habitacion #{self.numeroHabitacion}"
+
+
+class reserva(models.Model):
+    codigo = models.AutoField(primary_key=True)
+    fechaReserva = models.DateField(auto_now=True)
+    fechaLlegada = models.DateField()
+    fechaSalida = models.DateField()
+    estado = models.CharField(max_length=25)
+    habitacion = models.OneToOneField(habitacion, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(cliente, on_delete=models.CASCADE)
+    origen = models.CharField(max_length=25)
+
+
+    def __str__(self):
+        codigo = self.codigo
+        #codigo = str(codigo)
+        return f"{self.cliente} codigo de reserva: {codigo}"
 
 class detalleReserva(models.Model):
     codigo = models.IntegerField(primary_key=True)

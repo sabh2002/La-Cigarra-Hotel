@@ -3,7 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import * 
+from .forms import *
+from .models import *
 
 # Create your views here.
 
@@ -63,7 +64,11 @@ def signin(request):
         
 
 def clientes(request):
-    return render(request, 'clientes.html')  
+    clientes = cliente.objects.all()
+
+    return render(request, 'clientes.html', {'clientes': clientes})
+
+
 
 def registrar_clientes(request):
 
@@ -73,21 +78,27 @@ def registrar_clientes(request):
                                                         crear_cliente })
     else:
         form = crear_cliente(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('clientes')
+        #if form.is_valid():
+        nuevo_cliente = form.save(commit=False)
+        nuevo_cliente.save()
+        return redirect('clientes')
         #nuevo_usuario = form.save(commit=False)
         #print(nuevo_usuario )
         
 
 def reservacion(request):
 
-    if request == 'GET':
+    if request.method == 'GET':
         return render(request, 'reservacion.html', {'form' : crear_reservacion})
     
     else:
-        print(request.POST)
-        return render(request, 'reservacion.html', {'form' : crear_reservacion})
+        try:
+            form = crear_reservacion(request.POST)
+            nueva_reservacion = form.save(commit=False)
+            nueva_reservacion.save()
+            return redirect('home')
+        except ValueError: return render(request, 'reservacion.html',{'error':'Datos invalidos'})
+        
 
 
 def cerrar_sesion(request):
